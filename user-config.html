@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+ 
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+    integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-auth.js"></script>
+
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/logout.js"></script>
+</head>
+
+<body>
+  <div class="container">
+  <button id="logout" type="button" class="butn rounded btn-danger">Log out</button>
+</div>
+
+  <!-- Bottom Navbar from here-->
+  <div class="navbar">
+    <a class="fas fa-user"  id="modalButn2" onclick="abrirModal2()" href="#"></a>
+    <a class="fas fa-rss" href="rss.html"></a>
+    <a id="modalButn" onclick="abrirModal()" class="active fa fa-plus-circle" href="#"></a>
+    <a class="fas fa-user-cog" href="user-config.html"></a>
+    <a class="fa fa-list-ul" href="index.html"></a>
+  </div>
+  <!-- va en el idmodalvutt onclick="document.getElementById('id01').style.display='block'"  -->
+  <!-- Bottom Navbar To here -->
+
+  <!-- Modal Login from here -->
+<div id="id02" class="modal">
+  <form id="form2" class="modal-content">
+
+    <div class="container">
+      <h1>Login</h1>
+      <br>
+
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+        <p id="u1">Must to fill User area</p>
+      </div>
+      <div class="form-group">
+        <label for="pwd">Password:</label>
+        <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
+        <p id="u2">Must to fill password area</p>
+      </div>
+
+      <div class="clearfix">
+        <button id="btnLog" type="submit" class="col-sm-6">Log In!</button>
+        <button id="cancelLog" type="button" onclick="document.getElementById('id02').style.display='none'"
+          class="cancelbtn col-sm-6">Cancel</button>
+      </div>
+      <div class="mt-2">
+        <p>¿No tienes cuenta? Haz click <b id="aqui">Aqui</b></p>
+      </div>
+    </div>
+  </form>
+</div>
+<!-- modallogin to here -->
+
+
+  <!-- Modal Form from here -->
+  <div id="id01" class="modal">
+    <form id="form1" class="modal-content">
+
+      <div class="container">
+        <h1>Add new Product</h1>
+        <hr>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-5"></div>
+            <input id="imageProd" name="imageProd" type="file" class="form-control-file">
+            <!-- <a id="camera" class="fa fa-camera btn btn-primary col-sm-2" href="#"></a> -->
+          </div>
+        </div>
+        <br>
+        <label for="name"><b>Name</b></label>
+        <input id="name" type="text" name="name">
+
+        <label for="shop"><b>Shop</b></label>
+        <input id="shop" type="text" name="shop">
+
+        <label for="ref"><b>Ref.</b></label>
+        <input id="ref" type="text" name="ref">
+
+        <label for="price"><b>Price</b></label>
+        <input id="price" type="text" name="price">
+
+        <div class="clearfix">
+          <button id="cancelprdct" type="button" onclick="document.getElementById('id01').style.display='none'"
+            class="cancelbtn col-sm-6">Cancel</button>
+          <button id="addprdct" type="submit" class="col-sm-6">Add Product</button>
+          <button id="editprdct" type="submit" class="col-sm-6">Edit Product</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- Modal Form to here -->
+
+</body>
+
+</html>
