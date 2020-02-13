@@ -7,21 +7,23 @@ var storageRef;
 var fichero;
 var imagesUpRef;
 var keyProdToEdit;
+var email;
 
 function initialize() {
   console.log("Initialize")
-
   loadFirebase();
-
   showProducts();
+  
+  
   fichero = document.getElementById("imageProd");
   storageRef = firebase.storage().ref();
   imagesUpRef = firebase.database().ref().child("ImagenesProd");
-
+  
   document.getElementById("form2").addEventListener("submit", logIn);
   
   document.getElementById("aqui").addEventListener("click", createAcc);
-
+  
+  checkIfLogin();
 }
 
 function createAcc(){
@@ -35,9 +37,6 @@ function showProducts() {
   prods.on("value", showProductsChanges);
 
   document.getElementById("form1").addEventListener("submit", validateForm);
-  //document.getElementById("editprdct").addEventListener("click", SendEditProd);
-
-  checkIfLogin();
 }
 
 function loadFirebase() {
@@ -255,10 +254,10 @@ function validateForm(event) {
 }
 
 function logIn(event){
-  //event.preventDefault();
+  event.preventDefault();
 
   var formLogin = event.target;
-  var email = formLogin.email.value;
+   email = formLogin.email.value;
   var password = formLogin.pwd.value;
 
   firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
@@ -268,19 +267,17 @@ function logIn(event){
       console.log("Error")
       // ...
     });
-    
-    if( email == "admin@admin.com"){
-      window.location.href = "admin-index.html";
-    }else{
-      window.location.href = "index.html";  
-    }
-  
+    if(email == "admin@admin.com"){
+      window.location.href = "admin-index.html"
+   }
 }
 
 function checkIfLogin(){
+  //event.preventDefault();
   firebase.auth().onAuthStateChanged(function(user){
       if(user){
-          console.log("Ha entrado")
+          console.log("Ha entrado como: " + email)
+          document.getElementById('id02').style.display = "none";
       }else{
           console.log("Ha salido")
       }
