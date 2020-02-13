@@ -12,20 +12,23 @@ var email;
 function initialize() {
   console.log("Initialize")
   loadFirebase();
-  
+
   showProducts();
+
   fichero = document.getElementById("imageProd");
   storageRef = firebase.storage().ref();
   imagesUpRef = firebase.database().ref().child("ImagenesProd");
-  
+
   document.getElementById("form2").addEventListener("submit", logIn);
-  
+  document.getElementById("btnLogOut").addEventListener("click", logOut);
   document.getElementById("aqui").addEventListener("click", createAcc);
+  document.getElementById("X-mdl-LO").addEventListener("click", closeLogOutModal);
+
   checkIfLogin();
 
 }
 
-function createAcc(){
+function createAcc() {
   window.location.href = "create-account.html"
 }
 
@@ -59,34 +62,67 @@ function showProductsChanges(snap) {
   console.log("Show Products");
   var data = snap.val();
   var AllPrd = "";
-  for (var key in data) {
-    console.log("key: " + key)
 
-    AllPrd +=
-      '<div class="col-sm-3">' +
+  if (email == "admin@admin.com") {
+    for (var key in data) {
+      console.log("Log admin")
+
+      AllPrd +=
+        '<div class="col-sm-3">' +
         '<div class="card shadow p-4 bg-white mb-3">' +
-          '<img class="card-img-top rounded" src="' + data[key].url + '" alt="Card image">' +
-          '<div class="card-body">' +
-            '<h4 class="card-title">' + data[key].name + '</h4>' +
-            '<p class="card-text">' + data[key].shop + '</p>' +
-            '<p class="card-text">' + data[key].ref + '</p>' +
-            '<p class="card-text">' + data[key].price + '</p>' +
-          '</div>' +
+        '<img class="card-img-top rounded" src="' + data[key].url + '" alt="Card image">' +
+        '<div class="card-body">' +
+        '<h4 class="card-title">' + data[key].name + '</h4>' +
+        '<p class="card-text">' + data[key].shop + '</p>' +
+        '<p class="card-text">' + data[key].ref + '</p>' +
+        '<p class="card-text">' + data[key].price + '</p>' +
+        '</div>' +
         // * Aqui
         //Aqui acaba la info de la carta y empieza los botones de abajo
         //'<div class="container">' +
-          '<div class="row mt-2">' +
-            '<div class="col-sm-4"></div>' +
-             // '<i class="far fa-edit editar" data-prod="' + key + '"></i>' +
+        '<div class="row mt-2">' +
+        '<div class="col-sm-4"></div>' +
+        '<i class="far fa-edit editar" data-prod="' + key + '"></i>' +
 
-            '<div class="col-sm-3"></div>' + //Espacio enblanco
+        '<div class="col-sm-3"></div>' + //Espacio enblanco
 
-              //'<i class="far fa-trash-alt borrar" data-prod="' + key + '"></i>' +
-          '</div>' +
-          '</div>' + // Si quieres los botones fuera , descomenta el div de abajo y el class="container" y este div ponlo en donde * ^ 
+        '<i class="far fa-trash-alt borrar" data-prod="' + key + '"></i>' +
+        '</div>' +
+        '</div>' + // Si quieres los botones fuera , descomenta el div de abajo y el class="container" y este div ponlo en donde * ^ 
         //'</div>' +
-      '</div>'
+        '</div>'
+    }
+  } else {
+    for (var key in data) {
+      console.log("invitado")
+
+      AllPrd +=
+        '<div class="col-sm-3">' +
+        '<div class="card shadow p-4 bg-white mb-3">' +
+        '<img class="card-img-top rounded" src="' + data[key].url + '" alt="Card image">' +
+        '<div class="card-body">' +
+        '<h4 class="card-title">' + data[key].name + '</h4>' +
+        '<p class="card-text">' + data[key].shop + '</p>' +
+        '<p class="card-text">' + data[key].ref + '</p>' +
+        '<p class="card-text">' + data[key].price + '</p>' +
+        '</div>' +
+        // * Aqui
+        //Aqui acaba la info de la carta y empieza los botones de abajo
+        //'<div class="container">' +
+        '<div class="row mt-2">' +
+        '<div class="col-sm-4"></div>' +
+        //'<i class="far fa-edit editar" data-prod="' + key + '"></i>' +
+
+        '<div class="col-sm-3"></div>' + //Espacio enblanco
+
+        // '<i class="far fa-trash-alt borrar" data-prod="' + key + '"></i>' +
+        '</div>' +
+        '</div>' + // Si quieres los botones fuera , descomenta el div de abajo y el class="container" y este div ponlo en donde * ^ 
+        //'</div>' +
+        '</div>'
+    }
   }
+
 
   document.getElementById("allPrdcts").innerHTML = AllPrd;
 
@@ -127,70 +163,70 @@ function editProd(event) {
 }
 
 function AddProdToWL() {
- // event.preventDefault();
+  // event.preventDefault();
   console.log("Producto revisando si es edit o enviar");
 
   document.getElementById("addprdct").style.display = "unset";
   document.getElementById("editprdct").style.display = "none";
 
-  
+
   var formProd = event.target;
-  if(operation == ADD){
+  if (operation == ADD) {
     console.log("Revisado para enviar");
 
-  var name = formProd.name.value;
-  var shop = formProd.shop.value;
-  var ref = formProd.ref.value;
-  var price = formProd.price.value;
+    var name = formProd.name.value;
+    var shop = formProd.shop.value;
+    var ref = formProd.ref.value;
+    var price = formProd.price.value;
 
 
-  var imagenASubir = fichero.files[0];
+    var imagenASubir = fichero.files[0];
 
-  var uploadTask = storageRef.child("ImagenesProd/" + imagenASubir.name).put(imagenASubir);
-  uploadTask.on("state_changed",
-    function (snapshot) {
-      console.log("primer")
-    }, function (error) {
-      console.log(error);
-    }, function () {
-      console.log("funciona")
-      uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-        console.log('File available at', downloadURL);
-        firebase.database().ref("products/").push({
-          url: downloadURL, 
-          name: name,
-          shop: shop,
-          ref: ref,
-          price: price
+    var uploadTask = storageRef.child("ImagenesProd/" + imagenASubir.name).put(imagenASubir);
+    uploadTask.on("state_changed",
+      function (snapshot) {
+        console.log("primer")
+      }, function (error) {
+        console.log(error);
+      }, function () {
+        console.log("funciona")
+        uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+          console.log('File available at', downloadURL);
+          firebase.database().ref("products/").push({
+            url: downloadURL,
+            name: name,
+            shop: shop,
+            ref: ref,
+            price: price
+          });
         });
       });
+
+
+    operation = ADD;
+
+    document.getElementById("id01").style.display = "none";
+  } else {
+
+    console.log("Revisado para editar")
+
+    var refProd = firebase.database().ref("products/" + keyProdToEdit);
+    console.log("La key del producto recien editado es: " + keyProdToEdit);
+
+    refProd.update({
+      name: formProd.name.value,
+      shop: formProd.shop.value,
+      ref: formProd.ref.value,
+      price: formProd.price.value
     });
-  
-  
-  operation = ADD;
-  
-  document.getElementById("id01").style.display = "none";
-}else{
 
-  console.log("Revisado para editar")
+    document.getElementById("addprdct").style.display = "none";
+    document.getElementById("editprdct").style.display = "unset";
 
-  var refProd = firebase.database().ref("products/" + keyProdToEdit);
-  console.log("La key del producto recien editado es: " + keyProdToEdit);
-
-        refProd.update({
-            name: formProd.name.value,
-            shop: formProd.shop.value,
-            ref: formProd.ref.value,
-            price: formProd.price.value 
-        });
-
-        document.getElementById("addprdct").style.display = "none";
-        document.getElementById("editprdct").style.display = "unset";
-        
-        operation = ADD;
-        document.getElementById("id01").style.display = "none";
-}
-formProd.reset();
+    operation = ADD;
+    document.getElementById("id01").style.display = "none";
+  }
+  formProd.reset();
 }
 
 
@@ -252,42 +288,71 @@ function validateForm(event) {
   AddProdToWL();
 }
 
-function logIn(event){
+function logIn(event) {
   event.preventDefault();
 
   var formLogin = event.target;
-   email = formLogin.email.value;
+  email = formLogin.email.value;
   var password = formLogin.pwd.value;
 
-  firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log("Error")
-      // ...
-    });
-
-    if(email == "admin@admin.com"){
-      window.location.href = "admin-index.html"
-   }
+  firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    console.log("Error")
+    // ...
+  });
+  document.getElementById('id02').style.display = "none";
+showProducts();
 }
 
-function checkIfLogin(){
+function checkIfLogin() {
   //event.preventDefault();
-  firebase.auth().onAuthStateChanged(function(user){
-      if(user){
-        console.log("Ha entrado como: " + email)
-          document.getElementById('id02').style.display = "none";
-          
-      }else{
-          console.log("Ha salido")
-      }
-    });
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+      console.log("Ha entrado como: " + email)
+      document.getElementById('id02').style.display = "none";
+
+    } else {
+      console.log("Ha salido")
+    }
+  });
+}
+
+function createAcc() {
+  window.location.href = "create-account.html"
+}
+
+function logOut() {
+  firebase.auth().signOut().then(function () {
+    // Sign-out successful.
+    console.log("ha salido correctamente")
+    window.location.href = "index.html";
+  }).catch(function (error) {
+    // An error happened.
+    console.log("error")
+  });
 }
 
 //Modal login here
 function abrirModal2() {
   var modal = document.getElementById('id02').style.display = "unset";
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+}
+
+function closeLogOutModal(){
+  document.getElementById('id03').style.display = "none";
+}
+
+//Modal logout here
+function abrirModal3() {
+  var modal = document.getElementById('id03').style.display = "unset";
 
   // When the user clicks anywhere outside of the modal, close it
   window.onclick = function (event) {
