@@ -7,15 +7,13 @@ var storageRef;
 var fichero;
 var imagesUpRef;
 var keyProdToEdit;
-var email;
+var email = "invitado";
 
 function initialize() {
   console.log("Initialize")
   loadFirebase();
 
   showProducts();
-
-  userLogged();
 
   fichero = document.getElementById("imageProd");
   storageRef = firebase.storage().ref();
@@ -137,6 +135,8 @@ function showProductsChanges(snap) {
   for (var i = 0; i < editButtons.length; i++) {
     editButtons[i].addEventListener("click", editProd);
   }
+
+  userLogged();
 }
 
 
@@ -322,8 +322,7 @@ function checkIfLogin() {
 }
 
 function userLogged(){
-  userLog = document.getElementById("email-user");
-  //userLog.innerHTML = email;
+  document.getElementById("email-user").innerHTML = email;
 }
 
 function createAcc() {
