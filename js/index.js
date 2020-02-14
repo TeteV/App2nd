@@ -15,6 +15,8 @@ function initialize() {
 
   showProducts();
 
+  userLogged();
+
   fichero = document.getElementById("imageProd");
   storageRef = firebase.storage().ref();
   imagesUpRef = firebase.database().ref().child("ImagenesProd");
@@ -317,6 +319,11 @@ function checkIfLogin() {
       console.log("Ha salido")
     }
   });
+}
+
+function userLogged(){
+  userLog = document.getElementById("email-user");
+  //userLog.innerHTML = email;
 }
 
 function createAcc() {
