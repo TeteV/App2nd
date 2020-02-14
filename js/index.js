@@ -302,6 +302,7 @@ function logIn(event) {
     var errorCode = error.code;
     var errorMessage = error.message;
     console.log("Error")
+    alert("Usuario o contraseña erroneos");
     // ...
   });
   document.getElementById('id02').style.display = "none";
