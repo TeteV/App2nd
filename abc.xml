@@ -2,12 +2,12 @@
 <rss version="2.0">
  <channel>
 
- <title>Lo mas reciente en moda</title>
+ <title>Star Wars</title>
  <link>http://starwarsrss.internetdesigns.eu/</link>
  <description>Todo el contenido que quieras saber sobre el universo Star Wars</description>
 
  <item>
- <title>Nos deja un grande</title>
+ <title>Pagina principal</title>
  <link>http://starwarsrss.internetdesigns.eu/rss.php?id=1</link>
  <description>La primera seccion esta aqui</description>
  </item>
